@@ -17,14 +17,14 @@ def chart(file,wrap,layout):
         df = read_excel(io = file, sheet_name = sheet, header = None)
         title = df.iloc[0,0]
         df = df.iloc[3:,]
-        df.columns = ['origem','destino']
+        df.columns = ['source','target']
         unicos = list(set(df.stack()))
         net = Network(directed=True)
         for u in range(len(unicos)):
             net.add_node(u, label = wrap_text(unicos[u],wrap), shape = "box")
         for index, row in df.iterrows():
-            id_origem = unicos.index(row['origem'])
-            id_destino = unicos.index(row['destino'])
+            id_origem = unicos.index(row['source'])
+            id_destino = unicos.index(row['target'])
             net.add_edge(id_origem, id_destino)
         if layout == 'hierarchical':
             net.set_options(""" var options = { "layout": { "hierarchical": { "enabled": true, "levelSeparation": 200, "nodeSpacing": 200, "treeSpacing": 300, "blockShifting": true, "edgeMinimization": true, "parentCentralization": true } }, "physics": { "hierarchicalRepulsion": { "nodeDistance": 200 } } } """)
